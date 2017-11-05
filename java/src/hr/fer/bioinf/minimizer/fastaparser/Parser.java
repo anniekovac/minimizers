@@ -20,6 +20,10 @@ public class Parser {
             init();
         }
 
+        if (! hasNext()) {
+            throw new IllegalStateException("End of stream has been reached");
+        }
+
         String name = "";
         if (lastChar != '>') {
             lastChar = reader.read();
@@ -33,8 +37,13 @@ public class Parser {
 
         lastChar = reader.read();
         while (lastChar != '>' && lastChar != -1) {
+            if (lastChar == ';') {
+                reader.readLine();
+                lastChar = reader.read();
+            }
+
             if (! Character.isWhitespace(lastChar)) {
-                stringBuilder.append(lastChar);
+                stringBuilder.append((char) lastChar);
             }
 
             lastChar = reader.read();
