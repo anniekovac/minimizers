@@ -10,6 +10,14 @@ public class Sequence {
         this.string = string;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public String getString() {
+        return string;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
