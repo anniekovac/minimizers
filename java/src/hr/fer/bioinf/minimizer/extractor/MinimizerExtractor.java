@@ -83,8 +83,9 @@ public class MinimizerExtractor {
         String minimal = seqString.substring(0, k);
         int posMinimal = 0;
         addIfNotEqualToLast(minimizers, new Minimizer(minimal, seq, posMinimal));
+        int seqStringLength = seqString.length();
 
-        for (int windowEnd = 2; windowEnd < w; windowEnd++) {
+        for (int windowEnd = 2; windowEnd < Math.min(w, seqStringLength - k + 2); windowEnd++) {
 
             // iterating through kmers inside a window
             for (int i = posMinimal + 1; i < windowEnd; i++) {
@@ -112,7 +113,7 @@ public class MinimizerExtractor {
         int posMinimal = l - k;
         addIfNotEqualToLast(reverseEndMinimizers, new Minimizer(minimal, seq, posMinimal));
 
-        for (int windowStart = l - k - 1; windowStart > l - k - w; windowStart--) {
+        for (int windowStart = l - k - 1; windowStart > Math.max(l - k - w, 0); windowStart--) {
 
             // iterating through kmers inside a window
             for (int i = posMinimal - 1; i >= windowStart; i--) {

@@ -71,11 +71,13 @@ public class MinimizerHashTable {
         FileVisitor<Path> fileVisitor = new SimpleFileVisitor<Path>() {
                 @Override
                 public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    if (file.endsWith("fasta")
-                            || file.endsWith("fna")
-                            || file.endsWith("ffn")
-                            || file.endsWith("faa")
-                            || file.endsWith("frn")) {
+                    String filename = file.toString();
+
+                    if (filename.endsWith("fasta")
+                            || filename.endsWith("fna")
+                            || filename.endsWith("ffn")
+                            || filename.endsWith("faa")
+                            || filename.endsWith("frn")) {
 
                         addSequencesFromFile(sequences, file);
                     }
@@ -121,12 +123,20 @@ public class MinimizerHashTable {
         while (true) {
             System.out.print("Find string: ");
             String queryStr = sc.next();
+
+            if (queryStr.length() < k) {
+                System.out.println("String must be longer than k");
+                continue;
+            }
+
             List<Minimizer> queryStrMinimizers = MinimizerExtractor.extract(new Sequence("", queryStr), w, k);
 
             //if (queryStr.equals("exit")) break;
 
             for (Minimizer m : queryStrMinimizers) {
                 List<Minimizer> foundMinimizers = hashTable.get(m.getString());
+
+                if (foundMinimizers == null) continue;
 
                 for (Minimizer foundMinimizer : foundMinimizers) {
                     System.out.println("Found: " + foundMinimizer);
