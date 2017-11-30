@@ -12,9 +12,8 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class MinimizerHashTable {
-    private static final int ESTIMATED_SEQUENCE_SIZE = 10000;
 
-    Map<String, Minimizer> minimizerMap;
+    private Map<String, ArrayList<Minimizer>> minimizerMap;
 
     public MinimizerHashTable(Collection<Sequence> sequences, int w, int k) {
         if (sequences == null || sequences.isEmpty()) {
@@ -32,12 +31,21 @@ public class MinimizerHashTable {
             List<Minimizer> minimizers = MinimizerExtractor.extract(seq, w, k);
 
             for (Minimizer minimizer : minimizers) {
-                minimizerMap.put(minimizer.getString(), minimizer);
+                String minimizerStr = minimizer.getString();
+
+                if (! minimizerMap.containsKey(minimizerStr)) {
+                    ArrayList<Minimizer> newList = new ArrayList<>();
+                    newList.add(minimizer);
+                    minimizerMap.put(minimizerStr, newList);
+
+                } else {
+                    minimizerMap.get(minimizerStr).add(minimizer);
+                }
             }
         }
     }
 
-    public Minimizer get(String minimizerStr) {
+    public List<Minimizer> get(String minimizerStr) {
         return minimizerMap.get(minimizerStr);
     }
 
@@ -94,6 +102,8 @@ public class MinimizerHashTable {
                 }
             }
         }
+
+        return sequences;
     }
 
     public static void main(String[] args) {
@@ -108,6 +118,21 @@ public class MinimizerHashTable {
 
         MinimizerHashTable hashTable = new MinimizerHashTable(sequences, w, k);
 
-        //TODO implement the rest
+        while (true) {
+            System.out.print("Find string: ");
+            String queryStr = sc.next();
+            List<Minimizer> queryStrMinimizers = MinimizerExtractor.extract(new Sequence("", queryStr), w, k);
+
+            //if (queryStr.equals("exit")) break;
+
+            for (Minimizer m : queryStrMinimizers) {
+                List<Minimizer> foundMinimizers = hashTable.get(m.getString());
+
+                for (Minimizer foundMinimizer : foundMinimizers) {
+                    System.out.println("Found: " + foundMinimizer);
+                }
+            }
+
+        }
     }
 }
