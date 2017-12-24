@@ -1,3 +1,10 @@
+class Minimizer(object):
+	def __init__(self, position, minimizer):
+		self.minimizer = minimizer
+		self.position = position
+		self.sequence = None
+
+
 def return_kmers(input_string, k, index_from_beginning):
 	"""
 	Returns kmers from given input string.
@@ -41,3 +48,26 @@ def return_minizers(input_string, k, window_size):
 		minimizers[minimizer] = position
 		window_counter += 1
 	return minimizers
+
+
+def parse_fasta_file(path_to_file):
+	"""
+	Function made for parsing FASTA files.
+	:param path_to_file: str (path to file you want to parse)
+	:return: dict ({sequence_name : sequence_string})
+	"""
+	sequence_dict = dict()
+	with open(path_to_file, "r") as fasta:
+		sequence_string = ""
+		for line in fasta:
+			if line.startswith(">"):
+				sequence_name = line.strip(">").strip("\n")
+			else:
+				sequence_string += line.strip("\n")
+	sequence_dict[sequence_name] = sequence_string
+	return sequence_dict
+
+
+if __name__ == "__main__":
+	path = "fasta.txt"
+	parse_fasta_file(path)
