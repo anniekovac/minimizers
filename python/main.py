@@ -30,13 +30,13 @@ def return_kmers(input_string, k, index_from_beginning):
 	return kmers
 
 
-# TODO : if we are looking for minimizers in sequence, there should be sequence name included
-def return_minizers(input_string, k, window_size):
+def return_minizers(input_string, k, window_size, sequence_name=None):
 	"""
 	:param input_string: str (string in which you want to find minimizers in) 
 	:param k: int (size of kmers)
 	:param window_size: int (size of window which we consider)
-	:return: 
+	:param sequence_name: str (name of a sequence)	
+	:return: dict ({minimizer : Minimizer instance}) 
 	"""
 	if window_size < k:
 		raise ValueError("Your wanted window size ({}) is smaller than wanted k({})".format(window_size, k))
@@ -49,9 +49,13 @@ def return_minizers(input_string, k, window_size):
 		kmers_in_window = return_kmers(substring, k, window_counter)
 		minimizer = None
 		for kmer in kmers_in_window:
-			if minimizer is None or kmer[0] < minimizer:
-				minimizer, position = kmer
-		minimizers[minimizer] = position
+			if minimizer is None or kmer[0] < minimizer.minimizer:
+				#minimizer, position = kmer
+				mini_instance = Minimizer(kmer[1], kmer[0])
+				if sequence_name:
+					mini_instance.sequence = sequence_name
+				minimizer, position = mini_instance, kmer[1]
+		minimizers[minimizer.minimizer] = minimizer
 		window_counter += 1
 	return minimizers
 
@@ -81,5 +85,5 @@ if __name__ == "__main__":
 	mini_in_string = return_minizers(string_of_choice, 5, 6)
 	name, value = parse_fasta_file(path)
 	print(mini_in_string)
-	mini_in_fasta_file = return_minizers(value, 5, 6)
+	mini_in_fasta_file = return_minizers(value, 5, 6, sequence_name=name)
 	pp(mini_in_fasta_file)
