@@ -9,6 +9,8 @@ def return_kmers(input_string, k, index_from_beginning):
 	"""
 	kmers = []
 	i = 0
+	if input_string == "426472":
+		print("da")
 	while True:
 		kmer = input_string[i:i+k]  # slicing kmer out of input string
 		if len(kmer) < k:  # if window is coming to the end
@@ -18,7 +20,7 @@ def return_kmers(input_string, k, index_from_beginning):
 	return kmers
 
 
-def main(input_string, k, window_size):
+def return_minizers(input_string, k, window_size):
 	"""
 	:param input_string: str (string in which you want to find minimizers in) 
 	:param k: int (size of kmers)
@@ -29,29 +31,58 @@ def main(input_string, k, window_size):
 	window_counter = 0
 	while True:
 		substring = input_string[window_counter:window_counter + window_size]
+		# print("substring:", substring)
+		# print("window_counter:", window_counter)
+		# print("window_size:", window_size)
 		if len(substring) < window_size:
 			break
 		kmers_in_window = return_kmers(substring, k, window_counter)
-		print("substring", substring, "kmers in window:", kmers_in_window)
 		minimizer = None
 		for kmer in kmers_in_window:
 			if minimizer is None or kmer[0] < minimizer:
 				minimizer, position = kmer
 		minimizers[minimizer] = position
 		window_counter += 1
-		#print("MINIMIZER:", minimizer)
-	print(minimizers)
+	return minimizers
 
 
-if __name__ == "__main__":
-	#my_string = "2310343"
-	#k = 3
+def test1():
+	my_string = "2310343"
+	k = 3
+	window_size = len(my_string)
+	minimizers_should_be = {"034": 3}
+	minimizers_are = return_minizers(my_string, k, window_size)
+	assert minimizers_are == minimizers_should_be, """Test test1 failed! Minimizers that code returned:
+													{}
+													Minimizers that code should have returned:
+													{}""".format(minimizers_are, minimizers_should_be)
 
-	#my_string = "426472814751"
-	#k = 7
 
+def test2():
+	my_string = "426472814751"
+	k = 7
+	window_size = len(my_string)
+	minimizers_should_be = {"2647281":1}
+	minimizers_are = return_minizers(my_string, k, window_size)
+	assert minimizers_are == minimizers_should_be, """Test test2 failed! Minimizers that code returned:
+													{}
+													Minimizers that code should have returned:
+													{}""".format(minimizers_are, minimizers_should_be)
+
+
+def test3():
 	my_string = "231032101233101"
 	k = 3
 	window_size = 6
+	minimizers_should_be = {'032': 3, '012': 7, '123': 8, '101': 12}
+	minimizers_are = return_minizers(my_string, k, window_size)
+	assert minimizers_are == minimizers_should_be, """Test test3 failed! Minimizers that code returned:
+													{}
+													Minimizers that code should have returned:
+													{}""".format(minimizers_are, minimizers_should_be)
 
-	main(my_string, k, window_size)
+
+if __name__ == "__main__":
+
+	test1()
+	test2()
