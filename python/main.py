@@ -1,6 +1,3 @@
-# TODO: fix returning kmers for substring 123310 - WHATS WRONG ???
-
-
 def return_kmers(input_string, k, index_from_beginning):
 	"""
 	Returns kmers from given input string.
@@ -10,15 +7,13 @@ def return_kmers(input_string, k, index_from_beginning):
 	:param index_from_beginning: int (index from which input_string starts in original string)
 	:return: list [(str, int), (str, int) ...] where str is kmer and int is its position in string
 	"""
-	my_string_copy = input_string
 	kmers = []
 	i = 0
-	while my_string_copy:
-		kmer = input_string[i:i+k]
-		if len(kmer) < k:
-			break
-		kmers.append((kmer, index_from_beginning + i))
-		my_string_copy = my_string_copy.split(my_string[i:i+k], 1)[-1]
+	while True:
+		kmer = input_string[i:i+k]  # slicing kmer out of input string
+		if len(kmer) < k:  # if window is coming to the end
+			break		   # break
+		kmers.append((kmer, index_from_beginning + i))  # appending kmer and its index in original string
 		i += 1
 	return kmers
 
