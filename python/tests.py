@@ -53,6 +53,19 @@ def test1_return_kmers():
 	print("Test test1_return_kmers OK")
 
 
+def test2_return_kmers():
+	my_string = "2310343"
+	k = 3
+	window_counter = 0
+	kmers = return_kmers(my_string, k, window_counter)
+	kmers_should_be = [('231', 0), ('310', 1), ('103', 2), ('034', 3), ('343', 4)]
+	assert kmers == kmers_should_be, """Test test3 failed! KMERs that code returned:
+										{}
+										KMERS that code should have returned:
+										{}""".format(kmers, kmers_should_be)
+	print("Test test1_return_kmers OK")
+
+
 if __name__ == "__main__":
 
 	test1_return_minimizers()
