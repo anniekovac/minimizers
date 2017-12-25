@@ -1,6 +1,3 @@
-from pprint import pprint as pp
-
-
 class Minimizer(object):
 	def __init__(self, position, minimizer):
 		self.minimizer = minimizer
@@ -40,9 +37,6 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 		raise ValueError("Your wanted window size ({}) is smaller than wanted k({})".format(window_size, k))
 	minimizers = dict()
 	window_counter = 0
-	# print("input_string", input_string)
-	# print("window_size", window_size)
-	# print("k", k)
 	while True:
 		# getting substring from input_string
 		# from window_counter (which is always amplified by one, as window moves)
@@ -57,7 +51,7 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 		# get kmers in this selected substring
 		kmers_in_window = return_kmers(substring, k, window_counter)
 		minimizer = None
-		# print(kmers_in_window)
+
 		# check every kmer
 		for kmer in kmers_in_window:
 
@@ -104,20 +98,7 @@ def parse_fasta_file(path_to_file):
 
 
 # TODO : searching for a string "string of choice" within file fasta.txt
+# IF MINIMIZER IS IN THE MIDDLE OR AT THE END OF STRING OF CHOICE
 if __name__ == "__main__":
-	path = "fasta.txt"
-	string_of_choice = "AAGATGGCTAAGCAAGATTA"
-	mini_in_string = return_minizers(string_of_choice, 5, 6)
-	# print(mini_in_string)
-	# pp([item.position for item in mini_in_string["AAGAT"]])  # VRATI TOCNO
-	# pp([item.position for item in mini_in_string["AGATG"]])  # OVAJ RADI DOBRO
-	# pp([item.position for item in mini_in_string["ATGGC"]])  # VRATI TOCNO
-	# pp([item.position for item in mini_in_string["AAGCA"]])  # VRATI TOCNO
 
-# key = 'CTAAG'
-# # FASTA FILE
-# name, value = parse_fasta_file(path)
-# mini_in_fasta_file = return_minizers(value, 5, 6, sequence_name=name)
-# #pp(mini_in_fasta_file)
-# pos = mini_in_fasta_file[key].position
-# print(value[pos:pos+len(string_of_choice)])
+	print("da")
