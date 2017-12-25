@@ -88,19 +88,19 @@ def test_positions():
 														positions should be: {}""".format(returned_positions, positions_should_be)
 
 	returned_positions = [item.position for item in mini_in_string["AGATG"]]
-	positions_should_be = [1]
+	positions_should_be = [string_of_choice.find("AGATG")]
 	assert returned_positions == positions_should_be, """Wrong positions returned for 'AGATG',
 														positions returned: {}, 
 														positions should be: {}""".format(returned_positions, positions_should_be)
 
 	returned_positions = [item.position for item in mini_in_string["ATGGC"]]
-	positions_should_be = [3]
+	positions_should_be = [string_of_choice.find("ATGGC")]
 	assert returned_positions == positions_should_be, """Wrong positions returned for 'ATGGC',
 														positions returned: {}, 
 														positions should be: {}""".format(returned_positions, positions_should_be)
 
 	returned_positions = [item.position for item in mini_in_string["AAGCA"]]
-	positions_should_be = [9]
+	positions_should_be = [string_of_choice.find("AAGCA")]
 	assert returned_positions == positions_should_be, """Wrong positions returned for 'AAGCA',
 														positions returned: {}, 
 														positions should be: {}""".format(returned_positions, positions_should_be)
