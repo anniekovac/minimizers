@@ -1,4 +1,4 @@
-from main import return_minizers, return_kmers
+from main import return_minizers, return_kmers, parse_fasta_file
 from pprint import pprint as pp
 
 
@@ -107,6 +107,26 @@ def test_positions():
 
 	print("Test test_positions OK")
 
+
+def test_searching_for_string_prefix():
+	"""
+	Testing search for string by using minimizers, but only when 
+	key (minimizer is prefix in string of choice.
+	Searching for string otherwise (if minimizer is in the middle of a string or at the end)
+	IS NOT IMPLEMENTED YET.
+	"""
+	string_of_choice = "AAGAGTGTCTGATAGC"
+	key = 'AAGAG'
+	path = "fasta.txt"
+
+	name, value = parse_fasta_file(path)
+	mini_in_fasta_file = return_minizers(value, 5, 6, sequence_name=name)
+	pos = mini_in_fasta_file[key][0].position
+	found_string = value[pos:pos+len(string_of_choice)]
+	assert found_string == string_of_choice, "Found string is {}, but string we searched for was {}".format(found_string, string_of_choice)
+	print("Test test_searching_for_string_prefix OK")
+
+
 if __name__ == "__main__":
 
 	test1_return_minimizers()
@@ -114,3 +134,4 @@ if __name__ == "__main__":
 	test3_return_minimizers()
 	test1_return_kmers()
 	test_positions()
+	test_searching_for_string_prefix()
