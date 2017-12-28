@@ -5,15 +5,49 @@ import hr.fer.bioinf.minimizer.fastaparser.Parser;
 import hr.fer.bioinf.minimizer.minimizer.Minimizer;
 import hr.fer.bioinf.minimizer.sequence.Sequence;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
 public class MinimizerHashTable {
 
-    private Map<String, ArrayList<Minimizer>> minimizerMap;
+    private Map<String, List<Minimizer>> minimizerMap;
+
+    public MinimizerHashTable(File hashTableFile) throws IOException {
+        try (BufferedReader reader = new BufferedReader(new FileReader(hashTableFile))) {
+            minimizerMap = new HashMap<>();
+
+            String key = null;
+            String seqName = null;
+            List<Minimizer> minimizerList = null;
+
+            String line = reader.readLine();
+            while (line != null && ! line.isEmpty()) {
+
+                switch (line.charAt(0)) {
+                    case ':':
+                        if (key != null) minimizerMap.put(key, minimizerList);
+
+                        key = line.substring(1);
+                        break;
+                    case '>':
+                        seqName = line.substring(1);
+                        minimizerList = new ArrayList<>();
+                        break;
+                    case '#':
+                        int pos = Integer.parseInt(line.substring(1));
+                        minimizerList.add(new Minimizer(key, new Sequence(seqName, ""), pos));
+                        break;
+
+                    default:
+                        throw new IOException("Misformatted file");
+                }
+            }
+
+            if (key != null) minimizerMap.put(key, minimizerList);
+        }
+    }
 
     public MinimizerHashTable(Collection<Sequence> sequences, int w, int k) {
         if (sequences == null || sequences.isEmpty()) {
@@ -40,6 +74,27 @@ public class MinimizerHashTable {
 
                 } else {
                     minimizerMap.get(minimizerStr).add(minimizer);
+                }
+            }
+        }
+    }
+
+    public void saveToFile(File file) throws IOException {
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+
+            for (Map.Entry<String, List<Minimizer>> entry : minimizerMap.entrySet()) {
+                writer.write(":");
+                writer.write(entry.getKey());
+                writer.newLine();
+
+                for (Minimizer minimizer : entry.getValue()) {
+                    writer.write(">");
+                    writer.write(minimizer.getSeq().getName());
+                    writer.newLine();
+
+                    writer.write("#");
+                    writer.write(Integer.toString(minimizer.getPos()));
+                    writer.newLine();
                 }
             }
         }
@@ -106,43 +161,5 @@ public class MinimizerHashTable {
         }
 
         return sequences;
-    }
-
-    public static void main(String[] args) {
-        List<Sequence> sequences = getSequencesFromFile(args);
-        Scanner sc = new Scanner(System.in);
-
-        System.out.print("Input window size: ");
-        int w = sc.nextInt();
-
-        System.out.print("Input minimizer size: ");
-        int k = sc.nextInt();
-
-        MinimizerHashTable hashTable = new MinimizerHashTable(sequences, w, k);
-
-        while (true) {
-            System.out.print("Find string: ");
-            String queryStr = sc.next();
-
-            if (queryStr.length() < k) {
-                System.out.println("String must be longer than k");
-                continue;
-            }
-
-            List<Minimizer> queryStrMinimizers = MinimizerExtractor.extract(new Sequence("", queryStr), w, k);
-
-            //if (queryStr.equals("exit")) break;
-
-            for (Minimizer m : queryStrMinimizers) {
-                List<Minimizer> foundMinimizers = hashTable.get(m.getString());
-
-                if (foundMinimizers == null) continue;
-
-                for (Minimizer foundMinimizer : foundMinimizers) {
-                    System.out.println("Found: " + foundMinimizer);
-                }
-            }
-
-        }
     }
 }
