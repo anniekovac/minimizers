@@ -15,34 +15,44 @@ public class MinimizerHashTable {
     private Map<String, List<Minimizer>> minimizerMap;
 
     public MinimizerHashTable(File hashTableFile) throws IOException {
-        try (BufferedReader reader = new BufferedReader(new FileReader(hashTableFile))) {
-            minimizerMap = new HashMap<>();
+        try (BufferedReader reader = new BufferedReader(new FileReader(hashTableFile), 65536)) {
+            minimizerMap = new HashMap<>(500000);
+            Map<String, Sequence> sequenceMap = new HashMap<>();
 
             String key = null;
             String seqName = null;
             List<Minimizer> minimizerList = null;
 
             String line = reader.readLine();
+            int counter = 0;
             while (line != null && ! line.isEmpty()) {
 
                 switch (line.charAt(0)) {
                     case ':':
                         if (key != null) minimizerMap.put(key, minimizerList);
+                        minimizerList = new ArrayList<>();
 
                         key = line.substring(1);
                         break;
                     case '>':
                         seqName = line.substring(1);
-                        minimizerList = new ArrayList<>();
                         break;
                     case '#':
                         int pos = Integer.parseInt(line.substring(1));
-                        minimizerList.add(new Minimizer(key, new Sequence(seqName, ""), pos));
+                        Sequence seq = sequenceMap.get(seqName);
+                        if (seq == null) {
+                            seq = new Sequence(seqName, "");
+                            sequenceMap.put(seqName, seq);
+                        }
+
+                        minimizerList.add(new Minimizer(key, seq, pos));
                         break;
 
                     default:
                         throw new IOException("Misformatted file");
                 }
+
+                line = reader.readLine();
             }
 
             if (key != null) minimizerMap.put(key, minimizerList);
@@ -104,62 +114,5 @@ public class MinimizerHashTable {
         return minimizerMap.get(minimizerStr);
     }
 
-    private static List<Sequence> addSequencesFromFile(List<Sequence> sequences, Path file) {
-        Parser parser = new Parser(file.toString());
 
-        try {
-            while (parser.hasNext()) {
-                sequences.add(parser.nextSequence());
-            }
-            parser.close();
-
-        } catch (IOException ex) {
-            System.out.println("Error when working with file: " + file.toString());
-        }
-
-        return sequences;
-    }
-
-    private static List<Sequence> getSequencesFromFile(String[] files) {
-        List<Sequence> sequences = new ArrayList<>();
-
-        FileVisitor<Path> fileVisitor = new SimpleFileVisitor<Path>() {
-                @Override
-                public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                    String filename = file.toString();
-
-                    if (filename.endsWith("fasta")
-                            || filename.endsWith("fna")
-                            || filename.endsWith("ffn")
-                            || filename.endsWith("faa")
-                            || filename.endsWith("frn")) {
-
-                        addSequencesFromFile(sequences, file);
-                    }
-
-                    return FileVisitResult.CONTINUE;
-                }
-            };
-
-        for (String fileStr : files) {
-            File file = new File(fileStr);
-            if (! file.exists()) {
-                System.out.println("File " + fileStr + " does not exist");
-                continue;
-            }
-
-            if (file.isFile()) {
-                addSequencesFromFile(sequences, file.toPath());
-
-            } else if (file.isDirectory()) {
-                try {
-                    Files.walkFileTree(file.toPath(), fileVisitor);
-                } catch (IOException e) {
-                    System.out.println("Error when working with directory: " + fileStr);
-                }
-            }
-        }
-
-        return sequences;
-    }
 }
