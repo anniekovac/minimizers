@@ -9,9 +9,15 @@ import java.io.IOException;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Demo program which extracts minimizers from fasta file sequences, builds a hash table of the minimizers
+ * and saves the hash table to a file.<br/>
+ * Usage is: java MinimizerHashtableSave &lt;w&gt; &lt;k&gt; &lt;path-to-sequences&gt;
+ * &lt;path-to-hashtable&gt; <br/>
+ * Where &lt;w&gt; is the window size and &lt;k&gt; is the minimizer size.
+ */
 public class MinimizerHashtableSave {
     private final static String USAGE = "USAGE: java MinimizerHashtableSave <w> <k> <path-of-sequences> <path-to-hashtable>";
 

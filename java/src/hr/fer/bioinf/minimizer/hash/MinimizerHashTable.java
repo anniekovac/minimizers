@@ -1,19 +1,56 @@
 package hr.fer.bioinf.minimizer.hash;
 
 import hr.fer.bioinf.minimizer.extractor.MinimizerExtractor;
-import hr.fer.bioinf.minimizer.fastaparser.Parser;
 import hr.fer.bioinf.minimizer.minimizer.Minimizer;
 import hr.fer.bioinf.minimizer.sequence.Sequence;
 
 import java.io.*;
-import java.nio.file.*;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.util.*;
 
+/**
+ * <p>
+ * Hash table for finding Minimizers inside sequences in constant time.
+ * </p>
+ *
+ * <p>
+ * MinimizerHashTable can be constructed by extracting the minimizers from a group of Sequences in memory.
+ * MinimizerHashTable can then be written to a file, and extracted from the same file later in order to save time
+ * on extracting minimizers. If the minimizers were extracted directly they will keep the references to Sequence objects
+ * from which they were extracted, if they were read from a file, the reference will point to a 'dummy' Sequence object
+ * with the appropriate name but no body.
+ * Hash table files can be written with the 'saveToFile' method.
+ * </p>
+ *
+ * <p>
+ * MinimizerHashTables are saved to files according to the following format:
+ * File contains an arbitrary number of key-value combinations in which the key is marked with ':' at the beginning of
+ * the line, and the minimizer string following immediately after it.
+ * After the key follows an arbitrary number of alternating 'sequence name' and 'position' lines.
+ * 'Sequence name' lines start with '>', positions start with '#'.
+ * There are no spaced between the line marker (':', '>' or '#') and the content of the line.
+ * </p>
+ *
+ * <p>
+ * Example: <br/>
+ * :FQEFS <br/>
+ * >Host-nuclease inhibitor protein gam OS=Escherichia coli <br/>
+ * #35 <br/>
+ * :FQEFT <br/>
+ * >Uncharacterized protein OS=Escherichia coli <br/>
+ * #13 <br/>
+ * >Conjugal transfer protein OS=Escherichia coli <br/>
+ * #375 <br/>
+ * </p>
+ */
 public class MinimizerHashTable {
 
     private Map<String, List<Minimizer>> minimizerMap;
 
+    /**
+     * Constructs MinimizerHashTable from a given file using the above format.
+     * @param hashTableFile File in which the hash table is written.
+     * @throws IOException If the given file cannot be read for any reason or if it is in a wrong format.
+     */
     public MinimizerHashTable(File hashTableFile) throws IOException {
         try (BufferedReader reader = new BufferedReader(new FileReader(hashTableFile), 65536)) {
             minimizerMap = new HashMap<>(500000);
@@ -59,6 +96,12 @@ public class MinimizerHashTable {
         }
     }
 
+    /**
+     * Construct a MinimizerHashTable from a collection of sequences.
+     * @param sequences Collection of sequences from which minimizers will be extracted.
+     * @param w Window size of the minimizers.
+     * @param k Size of the minimizers strings.
+     */
     public MinimizerHashTable(Collection<Sequence> sequences, int w, int k) {
         if (sequences == null || sequences.isEmpty()) {
             throw new IllegalArgumentException("sequences must be a non-null, non-empty collection");
@@ -89,6 +132,11 @@ public class MinimizerHashTable {
         }
     }
 
+    /**
+     * Writes the hash table to a file in the aforementioned format.
+     * @param file File to which the hash table will be written.
+     * @throws IOException If the given file cannot be written to for any reason.
+     */
     public void saveToFile(File file) throws IOException {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
 
@@ -110,6 +158,11 @@ public class MinimizerHashTable {
         }
     }
 
+    /**
+     * Get the list of minimizers with the given string.
+     * @param minimizerStr Minimizer string.
+     * @return List of minimizers with the same string.
+     */
     public List<Minimizer> get(String minimizerStr) {
         return minimizerMap.get(minimizerStr);
     }

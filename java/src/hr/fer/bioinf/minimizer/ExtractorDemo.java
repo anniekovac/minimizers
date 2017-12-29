@@ -6,6 +6,11 @@ import hr.fer.bioinf.minimizer.sequence.Sequence;
 
 import java.util.List;
 
+/**
+ * Demo program which extracts minimizers from a given string. <br/>
+ * Usage is: java hr.fer.bioinf.minimizer.ExtractorDemo &lt;w&gt; &lt;k&gt; &lt;string&gt; <br/>
+ * Where &lt;w&gt; is the window size, &lt;k&gt; is the minimizer size and &lt;string&gt; is the string.
+ */
 public class ExtractorDemo {
     private final static String USAGE = "USAGE: java hr.fer.bioinf.minimizer.ExtractorDemo <w> <k> <string>";
 

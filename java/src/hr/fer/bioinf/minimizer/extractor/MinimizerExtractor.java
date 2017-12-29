@@ -8,11 +8,30 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.ListIterator;
 
+/**
+ * Class used to extract Minimizers from a sequence.
+ */
 public class MinimizerExtractor {
+    /**
+     * Extracts Minimizers from a sequence using the alphabetic comparison for strings.
+     * @param seq Sequence from which to extract minimizers.
+     * @param w Window size for minimizer extraction.
+     * @param k Size of minimizer.
+     * @return List of extracted minimizers in the order of their appearance.
+     */
     public static List<Minimizer> extract(Sequence seq, int w, int k) {
         return extract(seq, w, k, null);
     }
 
+    /**
+     * Extracts Minimizers from a sequence. Uses the given Comparator to establish an ordering of Strings.
+     * @param seq Sequence from which to extract minimizers.
+     * @param w Window size for minimizer extraction.
+     * @param k Size of minimizer.
+     * @param comp Comparator used to compare strings in the algorithm. If given null, method will use the default
+     *             (alphabetic) comparison.
+     * @return List of extracted minimizers in the order of their appearance.
+     */
     public static List<Minimizer> extract(Sequence seq, int w, int k, Comparator<String> comp) {
         if (w < 0) {
             throw new IllegalArgumentException("w must be positive");
