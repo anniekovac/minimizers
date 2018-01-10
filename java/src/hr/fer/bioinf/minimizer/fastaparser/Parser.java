@@ -86,6 +86,10 @@ public class Parser {
         reader = null;
     }
 
+    /**
+     * Initializes the Parser so it can be used to extract sequences.
+     * @throws FileNotFoundException If the file with the given filename could not be opened.
+     */
     private void init() throws FileNotFoundException {
         reader = new BufferedReader(new FileReader(filename));
     }

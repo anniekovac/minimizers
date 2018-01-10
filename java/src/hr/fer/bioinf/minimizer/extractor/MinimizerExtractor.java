@@ -87,6 +87,12 @@ public class MinimizerExtractor {
 
     }
 
+    /**
+     * Adds a minimizer to a list of minimizers if the minimizer is not equal to the last element of the list.
+     * @param minimizers List of minimizers where the minimizer will be added
+     * @param m Minimizer to add to the list
+     * @return Reference to 'minimizers' list
+     */
     private static List<Minimizer> addIfNotEqualToLast(List<Minimizer> minimizers, Minimizer m) {
         if (minimizers.isEmpty() || m.getPos() != minimizers.get(minimizers.size() - 1).getPos()) {
             minimizers.add(m);
@@ -95,6 +101,16 @@ public class MinimizerExtractor {
         return minimizers;
     }
 
+    /**
+     * Extracts end-minimizers from the beginning of the sequence and appends them to the end of the given minimizer
+     * list. Uses the given Comparator to establish an ordering of Strings.
+     * @param minimizers List of minimizers where the minimizers will be appended
+     * @param seq Sequence from which the minimizers will be extracted
+     * @param w Window size
+     * @param k Minimizer length
+     * @param comp Comparator used to establish an ordering of Strings.
+     * @return List of minimizers with beginning end-minimizers appended
+     */
     private static List<Minimizer> extractBeginningMinimizers(List<Minimizer> minimizers, Sequence seq, int w, int k,
                                                            Comparator<String> comp) {
         String seqString = seq.getString();
@@ -122,6 +138,16 @@ public class MinimizerExtractor {
         return minimizers;
     }
 
+    /**
+     * Extracts end-minimizers from the ending of the sequence and appends them to the end of the given minimizer
+     * list. Uses the given Comparator to establish an ordering of Strings.
+     * @param minimizers List of minimizers where the minimizers will be appended
+     * @param seq Sequence from which the minimizers will be extracted
+     * @param w Window size
+     * @param k Minimizer length
+     * @param comp Comparator used to establish an ordering of Strings.
+     * @return List of minimizers with ending end-minimizers appended
+     */
     private static List<Minimizer> extractEndingMinimizers(List<Minimizer> minimizers, Sequence seq, int w, int k,
                                                            Comparator<String> comp) {
         String seqString = seq.getString();

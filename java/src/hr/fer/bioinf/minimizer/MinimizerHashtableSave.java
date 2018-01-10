@@ -21,6 +21,12 @@ import java.util.List;
 public class MinimizerHashtableSave {
     private final static String USAGE = "USAGE: java MinimizerHashtableSave <w> <k> <path-of-sequences> <path-to-hashtable>";
 
+    /**
+     * Reads a file and adds all sequences found in the file to a list.
+     * @param sequences List of sequences where the new sequences will be added.
+     * @param file File to read for sequences.
+     * @return List of sequences where the new sequences were added.
+     */
     private static List<Sequence> addSequencesFromFile(List<Sequence> sequences, Path file) {
         Parser parser = new Parser(file.toString());
 
@@ -37,6 +43,13 @@ public class MinimizerHashtableSave {
         return sequences;
     }
 
+    /**
+     * Extracts all sequences from a group of files and returns them as a list.
+     * @param files Group of filepath to the files. If a path to a directory is given, this method will recurse down
+     *              file hierarchy and extract sequences from all files with a .fasta, .fna, .ffn, .faa or .frn
+     *              extension.
+     * @return List of sequences.
+     */
     public static List<Sequence> getSequencesFromFile(String[] files) {
         List<Sequence> sequences = new ArrayList<>();
 
