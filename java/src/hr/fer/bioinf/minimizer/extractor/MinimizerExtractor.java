@@ -78,7 +78,7 @@ public class MinimizerExtractor {
                 }
             }
 
-            addIfNotEqualToLast(minimizers, new Minimizer(minimal, seq, posMinimal));
+            addIfLargerPosition(minimizers, new Minimizer(minimal, seq, posMinimal));
         }
 
         extractEndingMinimizers(minimizers, seq, w, k, comp);
@@ -88,13 +88,14 @@ public class MinimizerExtractor {
     }
 
     /**
-     * Adds a minimizer to a list of minimizers if the minimizer is not equal to the last element of the list.
+     * Adds a minimizer to a list of minimizers if the minimizer's position is larger than the last minimizer's position
+     * or if the list is empty.
      * @param minimizers List of minimizers where the minimizer will be added
      * @param m Minimizer to add to the list
      * @return Reference to 'minimizers' list
      */
-    private static List<Minimizer> addIfNotEqualToLast(List<Minimizer> minimizers, Minimizer m) {
-        if (minimizers.isEmpty() || m.getPos() != minimizers.get(minimizers.size() - 1).getPos()) {
+    private static List<Minimizer> addIfLargerPosition(List<Minimizer> minimizers, Minimizer m) {
+        if (minimizers.isEmpty() || m.getPos() > minimizers.get(minimizers.size() - 1).getPos()) {
             minimizers.add(m);
         }
 
@@ -117,7 +118,7 @@ public class MinimizerExtractor {
 
         String minimal = seqString.substring(0, k);
         int posMinimal = 0;
-        addIfNotEqualToLast(minimizers, new Minimizer(minimal, seq, posMinimal));
+        addIfLargerPosition(minimizers, new Minimizer(minimal, seq, posMinimal));
         int seqStringLength = seqString.length();
 
         for (int windowEnd = 2; windowEnd < Math.min(w, seqStringLength - k + 2); windowEnd++) {
@@ -132,7 +133,7 @@ public class MinimizerExtractor {
                 }
             }
 
-            addIfNotEqualToLast(minimizers, new Minimizer(minimal, seq, posMinimal));
+            addIfLargerPosition(minimizers, new Minimizer(minimal, seq, posMinimal));
         }
 
         return minimizers;
@@ -152,32 +153,26 @@ public class MinimizerExtractor {
                                                            Comparator<String> comp) {
         String seqString = seq.getString();
         int l = seqString.length();
-        List<Minimizer> reverseEndMinimizers = new ArrayList<>(w);
 
-        String minimal = seqString.substring(l - k);
+        String minimal = null;
         int posMinimal = l - k;
-        addIfNotEqualToLast(reverseEndMinimizers, new Minimizer(minimal, seq, posMinimal));
 
-        for (int windowStart = l - k - 1; windowStart > Math.max(l - k - w, 0); windowStart--) {
+        for (int windowStart = Math.max(l - k - w, 0) + 1; windowStart <= l - k; windowStart++) {
+            if (posMinimal < windowStart) {
+                minimal = null;
+            }
 
             // iterating through kmers inside a window
-            for (int i = posMinimal - 1; i >= windowStart; i--) {
+            for (int i = windowStart; i <= l - k; i++) {
                 String kmer = seqString.substring(i, i + k);
 
-                if (comp.compare(kmer, minimal) < 0) {
+                if (minimal == null || comp.compare(kmer, minimal) < 0) {
                     minimal = kmer;
                     posMinimal = i;
                 }
             }
 
-            addIfNotEqualToLast(reverseEndMinimizers, new Minimizer(minimal, seq, posMinimal));
-        }
-
-        // reverse iteration
-        ListIterator<Minimizer> li = reverseEndMinimizers.listIterator(reverseEndMinimizers.size());
-        while (li.hasPrevious()) {
-            Minimizer m = li.previous();
-            addIfNotEqualToLast(minimizers, m);
+            addIfLargerPosition(minimizers, new Minimizer(minimal, seq, posMinimal));
         }
 
         return minimizers;
