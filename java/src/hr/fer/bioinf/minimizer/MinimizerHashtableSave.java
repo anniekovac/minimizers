@@ -113,7 +113,6 @@ public class MinimizerHashtableSave {
             return;
         }
 
-        System.out.println("Creating...");
         List<Sequence> sequences = getSequencesFromFile(new String[] {sequencesPath});
         MinimizerHashTable hashTable = new MinimizerHashTable(sequences, w, k);
         try {

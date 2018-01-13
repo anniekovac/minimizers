@@ -3,7 +3,9 @@ package hr.fer.bioinf.minimizer;
 import hr.fer.bioinf.minimizer.hash.MinimizerHashTable;
 import hr.fer.bioinf.minimizer.minimizer.Minimizer;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -38,24 +40,30 @@ public class MinimizerHashtableQuery {
             return;
         }
 
-        MinimizerHashTable hashTable = null;
-        try {
-            System.out.println("Loading hashtable from file...");
-            hashTable = new MinimizerHashTable(new File(hashTablePath));
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt"))) {
+            MinimizerHashTable hashTable = null;
+            try {
+                hashTable = new MinimizerHashTable(new File(hashTablePath));
+            } catch (IOException e) {
+                System.out.println("Could not read hashtable file " + hashTablePath);
+                return;
+            }
+
+            List<Minimizer> foundMinimizers = hashTable.get(string);
+
+            if (foundMinimizers == null) {
+                writer.write("No instances of " + string + " found");
+                writer.newLine();
+                return;
+            }
+
+            for (Minimizer foundMinimizer : foundMinimizers) {
+                writer.write("Found: " + foundMinimizer);
+                writer.newLine();
+            }
         } catch (IOException e) {
-            System.out.println("Could not read hashtable file " + hashTablePath);
-            return;
-        }
-
-        List<Minimizer> foundMinimizers = hashTable.get(string);
-
-        if (foundMinimizers == null) {
-            System.out.println("No instances of " + string + " found");
-            return;
-        }
-
-        for (Minimizer foundMinimizer : foundMinimizers) {
-            System.out.println("Found: " + foundMinimizer);
+            e.printStackTrace();
+            System.exit(1);
         }
     }
 }
