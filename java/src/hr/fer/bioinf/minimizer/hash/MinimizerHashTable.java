@@ -27,7 +27,7 @@ import java.util.*;
  * the line, and the minimizer string following immediately after it.
  * After the key follows an arbitrary number of alternating 'sequence name' and 'position' lines.
  * 'Sequence name' lines start with '>', positions start with '#'.
- * There are no spaced between the line marker (':', '>' or '#') and the content of the line.
+ * There are no spaces between the line marker (':', '>' or '#') and the content of the line.
  * </p>
  *
  * <p>

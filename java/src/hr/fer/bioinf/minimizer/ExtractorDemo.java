@@ -4,6 +4,9 @@ import hr.fer.bioinf.minimizer.extractor.MinimizerExtractor;
 import hr.fer.bioinf.minimizer.minimizer.Minimizer;
 import hr.fer.bioinf.minimizer.sequence.Sequence;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -36,8 +39,16 @@ public class ExtractorDemo {
 
         List<Minimizer> minimizerList = MinimizerExtractor.extract(new Sequence("", string), w, k);
 
-        for (Minimizer minimizer : minimizerList) {
-            System.out.println("" + minimizer.getString() + " on position " + minimizer.getPos());
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter("out.txt"))) {
+            for (Minimizer minimizer : minimizerList) {
+                writer.write("" + minimizer.getString() + " on position " + minimizer.getPos());
+                writer.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            System.exit(1);
         }
+
+
     }
 }
