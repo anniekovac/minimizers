@@ -1,37 +1,24 @@
 ﻿using MinimizersCore.Models;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MinimizersCore.Tests
 {
-    public class ExtractorTest
-    {      
-        private static String USAGE = "USAGE: java hr.fer.bioinf.minimizer.ExtractorDemo <w> <k> <string>";
+    public static class ExtractorTest
+    {           
 
-        public static void main(String[] args)
+        public static void Test(String[] args)
         {
             if (args.Length != 3)
             {
-                Console.WriteLine(USAGE);
+                Console.WriteLine("Invalid number of arguments");
                 return;
             }
 
-            int w = 0;
-            int k = 0;
-            string body = null;
-
-            try
-            {
-                w = Int32.Parse(args[0]);
-                k = Int32.Parse(args[1]);
-                body = args[2];
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(USAGE);
-                return;
-            }
+            int w = Int32.Parse(args[0]);
+            int k = Int32.Parse(args[1]);
+            string body = args[2];
+           
 
             List<Minimizer> minimizerList = Extractor.Extract(new GeneSequence("", body), w, k);
 
@@ -46,5 +33,10 @@ namespace MinimizersCore.Tests
 
         }
         
+
+
+
+
+
     }
 }
