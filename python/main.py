@@ -18,6 +18,7 @@ def return_kmers(input_string, k, index_from_beginning):
 	i = 0
 	while True:
 		kmer = input_string[i:i + k]  # slicing kmer out of input string
+		# print(kmer)
 		if len(kmer) < k:  # if window is coming to the end
 			break  # break
 		kmers.append((kmer, index_from_beginning + i))  # appending kmer and its index in original string
@@ -36,20 +37,30 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 	if window_size < k:  # if window size is smaller than k
 		raise ValueError("Your wanted window size ({}) is smaller than wanted k({})".format(window_size, k))
 	minimizers = dict()
-	window_counter = 0
+	window_counter = - window_size + 1
 	while True:
 		# getting substring from input_string
 		# from window_counter (which is always amplified by one, as window moves)
 		# to window_counter + window_size
-		substring = input_string[window_counter:window_counter + window_size]
+		if window_counter < 0:
+			substring = input_string[0:window_counter + window_size + k - 1]
+			index_from_beginning = 0
+		elif window_counter + window_size + k - 1 > len(input_string):
+			substring = input_string[window_counter:]
+			index_from_beginning = window_counter
+		else:
+			substring = input_string[window_counter:window_counter + window_size + k - 1]
+			index_from_beginning = window_counter
+		if len(substring) < k:
+			break
 
 		# if window counter got too forward in area where it not longer can
 		# cover k letters of input_string
-		if len(substring) < window_size:
-			break
+		# if len(substring) < window_size:
+		# 	break
 
 		# get kmers in this selected substring
-		kmers_in_window = return_kmers(substring, k, window_counter)
+		kmers_in_window = return_kmers(substring, k, index_from_beginning)
 		minimizer = None
 
 		# check every kmer
@@ -60,10 +71,11 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 			if minimizer is None or kmer[0] < minimizer.minimizer:
 
 				# creating instance of Minimizer(position, value)
+				# position = kmer[1] if kmer[1] >= 0 else 0
 				mini_instance = Minimizer(kmer[1], kmer[0])
 				if sequence_name:
 					mini_instance.sequence = sequence_name
-				minimizer, position = mini_instance, kmer[1]
+				minimizer = mini_instance
 
 		# enlarging minimizers dictionary
 		if minimizer.minimizer in minimizers:  # if minimizer already exists among keys
