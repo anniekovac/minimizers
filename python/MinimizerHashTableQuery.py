@@ -23,6 +23,12 @@ def load_hashtable(hash_file):
 	return minimizer_table
 
 if __name__ == "__main__":
+	"""
+	Argument for this script should be path to the file
+	where hashtable is saved.
+	For example:
+	python MinimizerHashTableQuery.py hash.txt
+	"""
 	arguments = ''.join(sys.argv[1:])
 	hash_file = arguments
 	minimizer_dictionary = load_hashtable(hash_file)

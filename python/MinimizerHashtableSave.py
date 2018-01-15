@@ -21,6 +21,17 @@ def create_hashtable(minimizer_table, hash_file):
 
 
 if __name__ == "__main__":
+	"""
+	Arguments to this script should be divided with ";"
+	Arguments for this script should be:
+	- k (int)
+	- w (int)
+	- path to file with saved sequence (str)
+	- path to file where hashtable should be saved (str)
+
+	For example:
+	python MinimizerHashtableSave.py 3;6;fasta.txt;hash.txt
+	"""
 	arguments = ''.join(sys.argv[1:])
 	k, w, fasta_file, hash_file = arguments.split(";")
 	sequence_name, sequence_string = parse_fasta_file(fasta_file)
