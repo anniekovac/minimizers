@@ -69,7 +69,7 @@ public class MinimizerExtractor {
             }
 
             // iterating through kmers inside a window
-            for (int j = Math.max(windowStart, posMinimal + 1); j < windowStart + k; j++) {
+            for (int j = Math.max(windowStart, posMinimal + 1); j < windowStart + w; j++) {
                 String kmer = seqString.substring(j, j + k);
 
                 if (minimal == null || comp.compare(kmer, minimal) < 0) {
