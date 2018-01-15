@@ -13,7 +13,12 @@ def create_hashtable(minimizer_table, hash_file):
 	:return: 
 	"""
 	with open(hash_file, "w") as file:
-		pass
+		for key, minimizer in minimizer_table.items():
+			if isinstance(minimizer, list):
+				file.write("{}:{}\n".format(key, [item.position for item in minimizer]))
+				# file.write("POSITION:{}\n".format([item.position for item in minimizer]))
+				#print("Position of minimizer {} is: {}".format(key, [item.position for item in minimizer]))
+
 
 if __name__ == "__main__":
 	arguments = ''.join(sys.argv[1:])
