@@ -1,0 +1,12 @@
+Svi programi izlaz stavljaju u datoteku out.txt u direktoriju u kojem se nalazi izvršni program.
+
+1. Extractor
+
+Prevoðenje:
+gcc Extractor.c -o Extractor
+
+Korištenje:
+./Extractor <w> <k> <string>
+
+Primjer:
+./Extractor 5 4 CATTGCGTTCGAGGCCACTGGCTATTTCGGACG
