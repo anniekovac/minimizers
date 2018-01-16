@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinimizersCore.Models
+﻿namespace MinimizersCore.Models
 {
     public class GeneSequence
     {
@@ -20,25 +18,6 @@ namespace MinimizersCore.Models
             Name = name;
             Body = body;
         }
-        
-        //?
-        public override bool Equals(Object o)
-        {
-            if (this == o) return true;
-            if (o == null || this.GetType() != o.GetType()) return false;  // GetType in c# is the same as getClass() in java, returns runtime type
-
-            GeneSequence sequence = (GeneSequence)o;
-
-            if (Name != sequence.Name) return false;
-            return Body.Equals(sequence.Body);
-        }
-
-        //?
-        public override int GetHashCode()
-        {
-            int result = Name.GetHashCode();
-            result = 31 * result + Body.GetHashCode();
-            return result;
-        }
+              
     }
 }

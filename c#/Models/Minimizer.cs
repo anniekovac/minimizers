@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace MinimizersCore.Models
+﻿namespace MinimizersCore.Models
 {
     public class Minimizer
     {
@@ -9,7 +7,7 @@ namespace MinimizersCore.Models
         private int position;
 
         public string MinimizerString { get => minimizerString; set => minimizerString = value; }
-        internal GeneSequence Sequence { get => sequence; set => sequence = value; }
+        public GeneSequence Sequence { get => sequence; set => sequence = value; }
         public int Position { get => position; set => position = value; }
 
 
@@ -25,21 +23,6 @@ namespace MinimizersCore.Models
             Sequence = sequence;
             Position = position;
         }
-
-              
-        public override string ToString()
-        {
-            return MinimizerString + " on position " + Position.ToString() + " in " + Sequence.Name;
-        }
-
-        //?
-        public override bool Equals(Object other)
-        {
-            if (this == other) return true;
-            if (other == null /*|| this.getType() != other.getType()*/) return false;
-
-            Minimizer minimizer = (Minimizer)other;
-            return (Sequence == minimizer.Sequence && Position == minimizer.Position);
-        }
+     
     }
 }

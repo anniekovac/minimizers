@@ -43,7 +43,7 @@ namespace MinimizersCore
                 if (posMinimal < windowStart)
                     minimal = null;
 
-                // iterating through kmers inside a window
+                // iterate through all substrings (k-mers) inside a window
                 for (int j = windowStart; j < windowStart + w; j++)
                 {
                     string kmer = sequence.Body.Substring(j, k);
@@ -78,7 +78,7 @@ namespace MinimizersCore
             for (int windowEnd = 2; windowEnd < Math.Min(w, sequence.Body.Length - k + 2); windowEnd++)
             {
 
-                // iterating through kmers inside a window
+                // iterate through all substrings (k-mers) inside a window
                 for (int i = posMinimal + 1; i < windowEnd; i++)
                 {
                     string kmer = sequence.Body.Substring(i, k);
@@ -110,7 +110,7 @@ namespace MinimizersCore
                     minimal = null;
                 }
 
-                // iterating through kmers inside a window
+                // iterate through all substrings (k-mers) inside a window
                 for (int i = windowStart; i <= l - k; i++)
                 {
                     string kmer = sequence.Body.Substring(i, k);
