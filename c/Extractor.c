@@ -22,7 +22,10 @@ int main (int argc, char *argv[]) {
 	Minimizer *backMinims;
 	Minimizer lastPrinted;
 
-	if (argc != 4) printf("%s\n", "Invalid number of arguments");
+	if (argc != 4) {
+		printf("Invalid number of arguments.\n");
+		return -1;
+	}
 	
 	// Reading arguments from console
 
