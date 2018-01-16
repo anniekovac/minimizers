@@ -1,0 +1,12 @@
+Za pokretanje sljedećih programa potrebno je instalirati Python 3.
+
+> Extractor
+
+Ovaj program kao argument prima string i u datoteku "out.txt"
+zapisuje koje je minimizer-e pronašao. Poziva se na sljedeći
+način:
+
+python path_to_minimizer_dir\minimizers\python\Extractor.py TTGACGTTGCATTACCGG
+
+Ovdje je path_to_minimizer_dir direktorij na Vašem računalu
+gdje ste spremili minizers direktorij.

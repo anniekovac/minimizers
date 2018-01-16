@@ -2,6 +2,13 @@ import sys
 from main import return_minizers
 
 if __name__ == "__main__":
+	"""
+	This program is made for searching minimizers in
+	particular string. These minimizers will be shown in 
+	out.txt directory. Example of using this program:
+	
+	python Extractor.py TTGACGTTGCATTACCGG
+	"""
 	a = ''.join(sys.argv[1:])
 	# print(a)
 	minimizers = return_minizers(a, 4, 5)
