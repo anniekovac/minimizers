@@ -5,8 +5,9 @@ from pprint import pprint as pp
 def test1_return_minimizers():
 	my_string = "2310343"
 	k = 3
-	window_size = len(my_string)
-	minimizers_should_be = {"034": 3}
+	window_size = 4
+	minimizers_should_be = {"231": 0, "103" : 2, "034": 3,
+							"343" : 4}
 	minimizers_are = return_minizers(my_string, k, window_size)
 	keys = [key for key in minimizers_are]
 	for key in keys:
@@ -20,9 +21,9 @@ def test1_return_minimizers():
 
 def test2_return_minimizers():
 	my_string = "426472814751"
-	k = 7
-	window_size = len(my_string)
-	minimizers_should_be = {"2647281":1}
+	k = 3
+	window_size = 3
+	minimizers_should_be = {'426': 0, '264': 1, '472': 3, '281': 5, '147': 7, '475': 8, '751': 9}
 	minimizers_are = return_minizers(my_string, k, window_size)
 	keys = [key for key in minimizers_are]
 	for key in keys:
@@ -37,8 +38,8 @@ def test2_return_minimizers():
 def test3_return_minimizers():
 	my_string = "231032101233101"
 	k = 3
-	window_size = 6
-	minimizers_should_be = {'032': 3, '012': 7, '123': 8, '101': 12}
+	window_size = 4
+	minimizers_should_be = {'231': 0, '103': 2, '032': 3, '012': 7, '123': 8, '101': 12}
 	minimizers_are = return_minizers(my_string, k, window_size)
 	keys = [key for key in minimizers_are]
 	for key in keys:
@@ -48,6 +49,23 @@ def test3_return_minimizers():
 													Minimizers that code should have returned:
 													{}""".format(minimizers_are, minimizers_should_be)
 	print("Test test3_return_minimizers OK")
+
+
+def test4_return_minimizers():
+	my_string = "2310321012331"
+	k = 4
+	window_size = 4
+	minimizers_should_be = {"2310" : 0, "1032" : 2, "0321" : 3,
+							"0123" : 7, "1233" : 8, "2331" : 9}
+	minimizers_are = return_minizers(my_string, k, window_size)
+	keys = [key for key in minimizers_are]
+	for key in keys:
+		minimizers_are[key] = minimizers_are[key][0].position
+	assert minimizers_are == minimizers_should_be, """Test test3 failed! Minimizers that code returned:
+													{}
+													Minimizers that code should have returned:
+													{}""".format(minimizers_are, minimizers_should_be)
+	print("Test test4_return_minimizers OK")
 
 
 def test1_return_kmers():
@@ -129,6 +147,7 @@ def test_searching_for_string_prefix():
 
 if __name__ == "__main__":
 
+	test4_return_minimizers()
 	test1_return_minimizers()
 	test2_return_minimizers()
 	test3_return_minimizers()
