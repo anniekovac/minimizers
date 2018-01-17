@@ -31,9 +31,11 @@ if __name__ == "__main__":
 	python MinimizerHashtableSave.py 3 6 fasta.txt hash.txt
 	"""
 	k, w, fasta_file, hash_file = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+	k = int(k)
+	w = int(w)
 	sequence_dict = parse_fasta_file(fasta_file)
 	mini_in_fasta_file = dict()
 	for sequence_name, sequence_string in sequence_dict.items():
-		mini_in_fasta_file.update(return_minizers(sequence_string, 5, 6, sequence_name=sequence_name))
+		mini_in_fasta_file.update(return_minizers(sequence_string, k, w, sequence_name=sequence_name))
 
 	create_hashtable(mini_in_fasta_file, hash_file)
