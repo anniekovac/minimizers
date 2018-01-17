@@ -1,0 +1,79 @@
+C# .NET Core implementacija (SDK 2.1.3)
+
+
+
+1. Instalacija
+
+Za pokretanje programa na Linux OS-u, potrebno je instalirati .NET Core SDK
+
+Detaljne upute se nalaze na linku: https://docs.microsoft.com/en-us/dotnet/core/linux-prerequisites?tabs=netcore2x
+
+Instalacija se svodi na kopiranje i izvrsavanje 5 naredbi u terminalu, 
+potrebno je pratiti upute samo za svoj odabrani Linux distro. 
+Primjerice, za Ubuntu je potrebno samo izvrsiti korake iz sekcije "Install .NET Core for Ubuntu 14.04, Ubuntu 16.04, Ubuntu 16.10 & Linux Mint 17, Linux Mint 18 (64 bit)", sve ostalo se moze ignorirati.
+
+
+
+
+2. Build i pokretanje
+
+Kada se SDK instalira, ili ako je instaliran otprije, 
+izvorni kod se moze build-ati pozicioniranjem u direktorij u kojem se nalazi MinimizersCore.csproj datoteka, 
+te izvrsavanjem naredbe u terminalu:
+dotnet build
+
+Nakon toga program se pokrece iz istog direktorija izvrsavanjem naredaba oblika:
+dotnet run argumenti
+
+Glavni outputi programa se u svakom slucaju zapisuju u datoteku out.txt u istom direktoriju
+Program prima tri moguca broja argumenata:
+
+a) 
+3 argumenta pokrecu Extractor test, koji samo izvlaci minimizere iz zadanog stringa
+
+Argumenti su redom: 
+w(window size), 
+k(kmer size), 
+string iz kojeg treba izvuci minimizere
+
+Primjer: dotnet run 3 3 MAFSAEDVLKEYDRRRRMEALLLSLYY
+
+
+b) 
+4 argumenta pokrecu test koji izvlaci sekvence iz zadane .FASTA datoteke, izvlaci minimizere iz svake od njih, i konacno trazi podudaranja izmedu ekstrahiranih minimizera i zadanog minimizer string argumenta
+
+Argumenti su redom: 
+w, 
+k, 
+put do .fasta datoteke koju se zeli analizirati (moze biti i samo ime datoteke ako je smjestena u istom direktoriju), 
+string koji predstavlja query, tj. minimizer string za kojeg se zele pronaci podudaranja 
+
+Primjer: dotnet run 3 3 database.fasta EKG
+
+
+c) 
+5 argumenata pokrecu test koji izvlaci sekvence iz zadane .FASTA datoteke, izvlaci minimizere iz svake od njih, pohrani ih u datoteku u posebnom formatu (i izbrise minimizere iz memorije), i zatim ponovno dohvati minimizere iz te datoteke i potrazi podudaranja izmedu ekstrahiranih minimizera i zadanog minimizer string argumenta.
+
+Argumenti su redom: 
+w, 
+k, 
+put do .fasta datoteke koju se zeli analizirati (moze biti i samo ime datoteke ako je smjestena u istom direktoriju), 
+put do datoteke u koju se zele pohraniti pronadeni minimizeri (ako ne postoje, stvorit ce se, ako se navede samo ime stvorit ce se u istom direktoriju) 
+string koji predstavlja query, tj. minimizer string za kojeg se zele pronaci podudaranja 
+
+Primjer: dotnet run 3 3 database.fasta mappings.txt EKG
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
