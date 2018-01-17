@@ -15,9 +15,7 @@ def create_hashtable(minimizer_table, hash_file):
 	with open(hash_file, "w") as file:
 		for key, minimizer in minimizer_table.items():
 			if isinstance(minimizer, list):
-				file.write("{}:{}\n".format(key, [item.position for item in minimizer]))
-				# file.write("POSITION:{}\n".format([item.position for item in minimizer]))
-				#print("Position of minimizer {} is: {}".format(key, [item.position for item in minimizer]))
+				file.write("{}:{}:{}\n".format(key, [item.position for item in minimizer], [item.sequence for item in minimizer]))
 
 
 if __name__ == "__main__":
@@ -30,10 +28,12 @@ if __name__ == "__main__":
 	- path to file where hashtable should be saved (str)
 
 	For example:
-	python MinimizerHashtableSave.py 3;6;fasta.txt;hash.txt
+	python MinimizerHashtableSave.py 3 6 fasta.txt hash.txt
 	"""
-	arguments = ''.join(sys.argv[1:])
-	k, w, fasta_file, hash_file = arguments.split(";")
-	sequence_name, sequence_string = parse_fasta_file(fasta_file)
-	mini_in_fasta_file = return_minizers(sequence_string, 5, 6, sequence_name=sequence_name)
+	k, w, fasta_file, hash_file = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4]
+	sequence_dict = parse_fasta_file(fasta_file)
+	mini_in_fasta_file = dict()
+	for sequence_name, sequence_string in sequence_dict.items():
+		mini_in_fasta_file.update(return_minizers(sequence_string, 5, 6, sequence_name=sequence_name))
+
 	create_hashtable(mini_in_fasta_file, hash_file)

@@ -2,11 +2,39 @@ Za pokretanje sljedećih programa potrebno je instalirati Python 3.
 
 > Extractor
 
-Ovaj program kao argument prima string i u datoteku "out.txt"
-zapisuje koje je minimizer-e pronašao. Poziva se na sljedeći
-način:
+    Ovaj program kao argument prima string i u datoteku "out.txt"
+    zapisuje koje je minimizer-e pronašao. Poziva se na sljedeći
+    način:
 
-python path_to_minimizer_dir\minimizers\python\Extractor.py TTGACGTTGCATTACCGG
+    python path_to_minimizer_dir\minimizers\python\Extractor.py TTGACGTTGCATTACCGG 4 5
 
-Ovdje je path_to_minimizer_dir direktorij na Vašem računalu
-gdje ste spremili minizers direktorij.
+    Ovdje je path_to_minimizer_dir direktorij na Vašem računalu
+    gdje ste spremili minizers direktorij.
+
+> MinimizerHashtableSave
+
+    Ovaj program koristi se za spremanje hash tablice minimizer-a stvorene iz
+    postojeće datoteke sa zapisanim sekvencama. Kao argumente prima sljedeće:
+
+        - k (int)
+        - w (int)
+        - put do .txt datoteke koja sadrži sekvence (str)
+        - put do .txt datoteke gdje želite da se hash tablica spremi (str)
+
+    python path_to_minimizer_dir\minimizers\python\MinimizerHashtableSave.py 3 6 fasta.txt hash.txt
+
+    Ovdje je path_to_minimizer_dir direktorij na Vašem računalu
+    gdje ste spremili minizers direktorij.
+
+> MinimizerHashtableQuery
+
+    Ovaj program koristi se za izvlačenje vrijednosti za neki
+    minimizer string iz već postojeće hash tablice. Argumenti:
+
+    - put do hash tablice (str)
+    - minimizer string koji tražimo u tablici (str)
+
+    python path_to_minimizer_dir\minimizers\python\MinimizerHashTableQuery.py hash.txt TTTCA
+
+    Ovdje je path_to_minimizer_dir direktorij na Vašem računalu
+    gdje ste spremili minizers direktorij.
