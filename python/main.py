@@ -34,8 +34,8 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 	:param sequence_name: str (name of a sequence)	
 	:return: dict ({minimizer : Minimizer instance}) 
 	"""
-	if window_size < k:  # if window size is smaller than k
-		raise ValueError("Your wanted window size ({}) is smaller than wanted k({})".format(window_size, k))
+	# if window_size < k:  # if window size is smaller than k
+	# 	raise ValueError("Your wanted window size ({}) is smaller than wanted k({})".format(window_size, k))
 	minimizers = dict()
 	window_counter = - window_size + 1
 	while True:
