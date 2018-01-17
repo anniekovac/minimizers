@@ -16,24 +16,20 @@ import java.util.List;
  * hash table file and &lt;string&gt; is the string to query
  */
 public class MinimizerHashtableQuery {
-    private final static String USAGE = "USAGE: java MinimizerHashtableQuery <w> <k> <hashtable-path> <string>";
+    private final static String USAGE = "USAGE: java MinimizerHashtableQuery <hashtable-path> <string>";
 
     public static void main(String[] args) {
-        if (args.length != 4) {
+        if (args.length != 2) {
             System.out.println(USAGE);
             return;
         }
 
-        int w = 0;
-        int k = 0;
         String hashTablePath = null;
         String string = null;
 
         try {
-            w = Integer.parseInt(args[0]);
-            k = Integer.parseInt(args[1]);
-            hashTablePath = args[2];
-            string = args[3];
+            hashTablePath = args[0];
+            string = args[1];
 
         } catch (NumberFormatException ex) {
             System.out.println(USAGE);
