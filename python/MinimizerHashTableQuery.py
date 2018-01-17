@@ -25,12 +25,20 @@ def load_hashtable(hash_file):
 if __name__ == "__main__":
 	"""
 	Argument for this script should be path to the file
-	where hashtable is saved.
+	where hashtable is saved and string which you want to
+	be found (which is a minimizer saved in hash.txt).
 	For example:
-	python MinimizerHashTableQuery.py hash.txt
+	python MinimizerHashTableQuery.py hash.txt;TTTCA
 	"""
 	arguments = ''.join(sys.argv[1:])
-	hash_file = arguments
+	hash_file, string_to_find = arguments.split(";")
 	minimizer_dictionary = load_hashtable(hash_file)
-	print(minimizer_dictionary["TTTCA"].position)
+	output_file = "out.txt"
+	try:
+		with open(output_file, "w") as out:
+			out.write("Found string: {}, Positions: {}".format(string_to_find, minimizer_dictionary[string_to_find].position))
+			#print(minimizer_dictionary[string_to_find].position)
+	except KeyError:
+		with open(output_file, "w") as out:
+			out.write("Minimizer string {} not found".format(string_to_find))
 	# TTTCA:[4, 5795, 10555, 11256, 11399]
