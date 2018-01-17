@@ -18,7 +18,7 @@ int main (int argc, char *argv[]) {
 	char *currentStr;
 	char *targetStrPtr;
 	FILE *outFile;
-	Minimizer Minims[2000];
+	Minimizer *Minims;
 	Minimizer *backMinims;
 	Minimizer lastPrinted;
 
@@ -40,6 +40,7 @@ int main (int argc, char *argv[]) {
 	Minim = (char *) malloc(2*k*sizeof(char));
 	backMinim = (char *) malloc(2*k*sizeof(char));
 	currentStr = (char *) malloc(2*k*sizeof(char));
+	Minims = (Minimizer *) malloc(100001*sizeof(Minimizer));
 
 	outFile = fopen("out.txt", "w");
 

@@ -22,7 +22,7 @@ int main(int argc, char *argv[])
 	char *backMinim;
 	char *currentStr;
 	char *targetStrPtr;
-	Minimizer Minims[2000];
+	Minimizer *Minims;
 	Minimizer *backMinims;
 	Minimizer lastPrinted;
 	
@@ -46,6 +46,7 @@ int main(int argc, char *argv[])
 	Minim = (char *) malloc(2*k*sizeof(char));
 	backMinim = (char *) malloc(2*k*sizeof(char));
 	currentStr = (char *) malloc(2*k*sizeof(char));
+	Minims = (Minimizer *) malloc(100001*sizeof(Minimizer));
  
 	int state = 0;
 	while ((read = getline(&line, &len, fp)) != -1) {
@@ -175,7 +176,7 @@ int main(int argc, char *argv[])
 	printf("\n");
  
 	fclose(fp);
-	fclose(outfile);
+	fclose(outFile);
 	if (line)
 		free(line);
 	return 0;
