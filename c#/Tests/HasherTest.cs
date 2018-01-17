@@ -25,14 +25,17 @@ namespace MinimizersCore.Tests
 
             MinimizerHasher hasher = new MinimizerHasher();
             hasher.AnalyzeSequences(w, k, pathTarget);
-            List<Minimizer> list = hasher.QueryMinimizers(query); 
+            List<Minimizer> list = hasher.QueryMinimizers(query);
 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("out.txt"))
-            {                            
-                foreach (Minimizer minimizer in list)
+            {
+                if (list != null)
                 {
-                    file.WriteLine(minimizer.MinimizerString + " on position " + minimizer.Position + " in sequence named:   " + minimizer.Sequence.Name);
-                }              
+                    foreach (Minimizer minimizer in list)
+                    {
+                        file.WriteLine(minimizer.MinimizerString + " on position " + minimizer.Position + " in sequence named:   " + minimizer.Sequence.Name);
+                    }
+                }
             }
 
 
@@ -64,9 +67,12 @@ namespace MinimizersCore.Tests
 
             using (System.IO.StreamWriter file = new System.IO.StreamWriter("out.txt"))
             {
-                foreach (Minimizer minimizer in list)
+                if (list != null)
                 {
-                    file.WriteLine(minimizer.MinimizerString + " on position " + minimizer.Position + " in sequence named:   " + minimizer.Sequence.Name);
+                    foreach (Minimizer minimizer in list)
+                    {
+                        file.WriteLine(minimizer.MinimizerString + " on position " + minimizer.Position + " in sequence named:   " + minimizer.Sequence.Name);
+                    }
                 }
             }
 

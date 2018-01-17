@@ -171,7 +171,10 @@ namespace MinimizersCore
         /// <returns></returns>
         public List<Minimizer> QueryMinimizers(string query)
         {
-            return MinimizerLedger[query];
+            if (MinimizerLedger.ContainsKey(query))
+                return MinimizerLedger[query];
+            else
+                return null;
         }
 
 
