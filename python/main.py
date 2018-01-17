@@ -54,11 +54,6 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 		if len(substring) < k:
 			break
 
-		# if window counter got too forward in area where it not longer can
-		# cover k letters of input_string
-		# if len(substring) < window_size:
-		# 	break
-
 		# get kmers in this selected substring
 		kmers_in_window = return_kmers(substring, k, index_from_beginning)
 		minimizer = None
@@ -90,7 +85,6 @@ def return_minizers(input_string, k, window_size, sequence_name=None):
 	return minimizers
 
 
-# TODO: parse fasta file that has more than one sequence in it
 def parse_fasta_file(path_to_file):
 	"""
 	Function made for parsing FASTA files.
@@ -100,17 +94,15 @@ def parse_fasta_file(path_to_file):
 	sequence_dict = dict()
 	with open(path_to_file, "r") as fasta:
 		sequence_string = ""
+		sequence_name = None
 		for line in fasta:
 			if line.startswith(">"):
+				if sequence_name is not None:
+					sequence_dict[sequence_name] = sequence_string
+					sequence_string = ""
 				sequence_name = line.strip(">").strip("\n")
 			else:
 				sequence_string += line.strip("\n")
-	sequence_dict[sequence_name] = sequence_string
-	return sequence_name, sequence_string
-
-
-# TODO : searching for a string "string of choice" within file fasta.txt
-# IF MINIMIZER IS IN THE MIDDLE OR AT THE END OF STRING OF CHOICE
-if __name__ == "__main__":
-
-	print("da")
+		sequence_dict[sequence_name] = sequence_string
+	return sequence_dict
+	# return sequence_name, sequence_string
