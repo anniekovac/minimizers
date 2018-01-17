@@ -10,3 +10,12 @@ Korištenje:
 
 Primjer:
 ./Extractor 5 4 CATTGCGTTCGAGGCCACTGGCTATTTCGGACG
+
+2. MinimizerHashTableSave
+
+Prevoðenje: gcc MinimizerHashTableSave.c -o MHS
+
+Korištenje:
+./MHS <w> <k> <fasta-path> <out-path>
+
+Primjer: ./MHS 4 5 test.fasta out.txt
