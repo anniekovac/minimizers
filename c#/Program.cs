@@ -7,7 +7,7 @@ namespace MinimizersCore
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Testing start!");
+            //Console.WriteLine("Testing start!");
 
             if (args.Length == 3)
                 ExtractorTest.Test(args);
